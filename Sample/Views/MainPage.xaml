@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:model="clr-namespace:Sample.Models"
+             Title="Main Page"
+             x:Class="Sample.Views.MainPage"
+             x:Name="me">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+        <CarouselView Grid.Row="0" ItemsSource="{Binding Books}" 
+                      ItemSizingStrategy="MeasureFirstItem"
+                      HorizontalScrollBarVisibility="Never"
+                      PeekAreaInsets="{OnPlatform Android=150,iOS=50}"
+                      NumberOfSideItems="0"
+                      Position="{Binding Position.Value}"
+                      RemainingItemsThreshold="1"
+                      RemainingItemsThresholdReachedCommand="{Binding BindingContext.MoreCommand,Source={x:Reference me}}"
+                      VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="350">
+            <CarouselView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal"
+                                   ItemSpacing="10"
+                                   SnapPointsType="MandatorySingle"
+                                   SnapPointsAlignment="Center" />
+            </CarouselView.ItemsLayout>
+            <CarouselView.ItemTemplate>
+                <DataTemplate x:DataType="model:WebBook">
+                    <Frame CornerRadius="16" BorderColor="Silver" HasShadow="False" IsClippedToBounds="True">
+                        <Image Source="{Binding Thumbnail}" Aspect="AspectFill" Margin="-20" />
+                    </Frame>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+        <FlexLayout Grid.Row="1" Direction="Row" JustifyContent="SpaceAround" AlignItems="Center">
+            <Button Text="Prev" Command="{Binding PrevCommand}" />
+            <Button Text="Next" Command="{Binding NextCommand}" />
+        </FlexLayout>
+    </Grid>
+    
+
+</ContentPage>
